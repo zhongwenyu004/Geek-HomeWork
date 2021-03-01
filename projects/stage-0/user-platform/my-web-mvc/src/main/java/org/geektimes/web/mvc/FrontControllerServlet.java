@@ -56,10 +56,7 @@ public class FrontControllerServlet extends HttpServlet {
         for (Controller controller : ServiceLoader.load(Controller.class)) {
             Class<?> controllerClass = controller.getClass();
             Path pathFromClass = controllerClass.getAnnotation(Path.class);
-            //此处获取了所有的PATH 路径并拼接成为路径，改为按/controller/function形式
-            String url = pathFromClass.value();
-            String[] strs = url.split("/");
-            String requestPath = strs[0];
+            String requestPath = pathFromClass.value();
             Method[] publicMethods = controllerClass.getMethods();
             // 处理方法支持的 HTTP 方法集合
             // 如果配置了@path 那么就就会在 requestPath 中以/** + /** 的方式累加
@@ -73,6 +70,7 @@ public class FrontControllerServlet extends HttpServlet {
                         new HandlerMethodInfo(requestPath, method, supportedHttpMethods));
             }
             controllersMapping.put(requestPath, controller);
+            System.out.println(controller.toString());
         }
     }
 
@@ -112,6 +110,7 @@ public class FrontControllerServlet extends HttpServlet {
             throws ServletException, IOException {
         // 建立映射关系
         // requestURI = /a/hello/world
+        request.setCharacterEncoding("UTF-8");
         String requestURI = request.getRequestURI();
         // contextPath  = /a or "/" or ""
         String servletContextPath = request.getContextPath();
@@ -154,8 +153,13 @@ public class FrontControllerServlet extends HttpServlet {
                         return;
                     } else if (controller instanceof RestController) {
                         // TODO
+                        RestController restController = RestController.class.cast(controller);
+                        String result = restController.login(request, response);
+                        ServletContext servletContext = request.getServletContext();
+                        response.sendRedirect("../success/loginOK");
+//                        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("../success/loginOK");
+//                        requestDispatcher.forward(request, response);
                     }
-
                 }
             } catch (Throwable throwable) {
                 if (throwable.getCause() instanceof IOException) {
@@ -178,4 +182,6 @@ public class FrontControllerServlet extends HttpServlet {
 //            writer.write(headers, cacheControl.value());
 //        }
 //    }
+
+
 }

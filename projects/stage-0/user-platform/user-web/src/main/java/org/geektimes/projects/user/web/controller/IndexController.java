@@ -20,13 +20,4 @@ public class IndexController implements PageController {
     }
 
 
-    @GET
-    @POST
-    @Path("/userlogin")
-    public String userlogin(String email,String password){
-        System.out.println(email);
-        System.out.println(password);
-        return "login";
-
-    }
 }
