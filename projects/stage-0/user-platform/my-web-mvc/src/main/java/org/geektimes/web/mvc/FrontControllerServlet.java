@@ -20,8 +20,11 @@ import javax.ws.rs.GET;
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.Path;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.*;
 
 import static java.util.Arrays.asList;
@@ -45,8 +48,12 @@ public class FrontControllerServlet extends HttpServlet {
      * @param servletConfig
      */
     public void init(ServletConfig servletConfig) {
+
         initHandleMethods();
+
     }
+
+
 
     /**
      * 读取所有的 RestController 的注解元信息 @Path
@@ -57,9 +64,7 @@ public class FrontControllerServlet extends HttpServlet {
             Class<?> controllerClass = controller.getClass();
             Path pathFromClass = controllerClass.getAnnotation(Path.class);
             //此处获取了所有的PATH 路径并拼接成为路径，改为按/controller/function形式
-            String url = pathFromClass.value();
-            String[] strs = url.split("/");
-            String requestPath = strs[0];
+            String requestPath = pathFromClass.value();
             Method[] publicMethods = controllerClass.getMethods();
             // 处理方法支持的 HTTP 方法集合
             // 如果配置了@path 那么就就会在 requestPath 中以/** + /** 的方式累加
@@ -154,6 +159,19 @@ public class FrontControllerServlet extends HttpServlet {
                         return;
                     } else if (controller instanceof RestController) {
                         // TODO
+                        RestController restController = RestController.class.cast(controller);
+                        boolean isUser = restController.login(request, response);
+                        if(isUser){
+                            response.sendRedirect("../success/loginok");
+                        }else{
+                            response.setCharacterEncoding("UTF-8");
+                            response.setContentType("application/json; charset=utf-8");
+                            PrintWriter out = response.getWriter();
+                            out.print("登录失败");
+                            out.flush();
+                            out.close();
+                        }
+
                     }
 
                 }

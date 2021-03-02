@@ -18,15 +18,4 @@ public class IndexController implements PageController {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Throwable {
         return "login-form.jsp";
     }
-
-
-    @GET
-    @POST
-    @Path("/userlogin")
-    public String userlogin(String email,String password){
-        System.out.println(email);
-        System.out.println(password);
-        return "login";
-
-    }
 }
