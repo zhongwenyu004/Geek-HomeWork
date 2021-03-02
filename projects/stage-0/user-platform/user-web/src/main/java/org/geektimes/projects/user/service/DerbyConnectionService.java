@@ -7,9 +7,14 @@ import org.geektimes.projects.user.repository.UserRepository;
 import java.sql.*;
 
 public class DerbyConnectionService {
-    public boolean checkuser(String email, String password) {
+    public boolean checkuser(String name, String password) {
         InMemoryUserRepository inMemoryUserRepository = new InMemoryUserRepository();
-        User user = inMemoryUserRepository.getByNameAndPassword(email,password);
-        return true;
+        User user = inMemoryUserRepository.getByNameAndPassword(name,password);
+        if(user!=null && name.equals(user.getName()) && password.equals(user.getPassword())){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }

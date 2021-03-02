@@ -12,9 +12,9 @@ import javax.ws.rs.Path;
 public class SuccessController implements PageController {
     @GET
     @POST
-    @Path("/loginOK") // /login -> IndexController
+    @Path("/loginok") // /login -> IndexController
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Throwable {
         System.err.println("loginok");
-        return "loginOK.jsp";
+        return "loginok.jsp";
     }
 }

@@ -154,11 +154,15 @@ public class FrontControllerServlet extends HttpServlet {
                     } else if (controller instanceof RestController) {
                         // TODO
                         RestController restController = RestController.class.cast(controller);
-                        String result = restController.login(request, response);
-                        ServletContext servletContext = request.getServletContext();
-                        response.sendRedirect("../success/loginOK");
-//                        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("../success/loginOK");
-//                        requestDispatcher.forward(request, response);
+                        if(restController.login(request, response)){
+                            response.sendRedirect("../success/loginok");
+                        }else {
+                            ServletContext servletContext = request.getServletContext();
+                            RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/login-form.jsp");
+                            requestDispatcher.forward(request, response);
+                        }
+
+
                     }
                 }
             } catch (Throwable throwable) {

@@ -20,10 +20,10 @@
 </head>
 <body>
 	<div class="container">
-		<form class="form-signin" action="../login/usercheck">
+		<form class="form-signin" action="../login/usercheck" method="post">
 			<h1 class="h3 mb-3 font-weight-normal">登录</h1>
 			<label for="inputEmail" class="sr-only">请输出电子邮件</label>
-			<input type="email" id="inputEmail" class="form-control" placeholder="请输入电子邮件" required autofocus name="email">
+			<input type="email" id="inputEmail" class="form-control" placeholder="请输入电子邮件" required autofocus name="name">
 
 			<label for="inputPassword" class="sr-only">Password</label>
 			<input type="password" id="inputPassword" class="form-control" placeholder="请输入密码" required name="password">
@@ -37,4 +37,11 @@
 			<p class="mt-5 mb-3 text-muted">&copy; 2017-2021</p>
 		</form>
 	</div>
+
+
+<div>
+	后台写死的
+	用户名： 123@qq.com 密码：111111
+	用户名： 222@sina.com 密码：111111
+</div>
 </body>
