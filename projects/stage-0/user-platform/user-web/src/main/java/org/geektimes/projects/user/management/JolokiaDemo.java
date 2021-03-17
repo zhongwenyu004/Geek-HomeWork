@@ -11,7 +11,7 @@ public class JolokiaDemo {
 
     public static void main(String[] args) throws Exception{
         MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
-        ObjectName name = new ObjectName("jolokia:name=" + "User");
+        ObjectName name = new ObjectName("jolokia:name=User");
         User user = new User();
         mBeanServer.registerMBean(new UserManager(user), name);
         while (true) {
